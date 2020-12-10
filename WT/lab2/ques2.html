@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="ques2.css">
+    <title>Demonstrating Form Elements</title>
+  </head>
+<body>
+
+<form id="form1" action="/action_page.php">
+  
+  First name: <input type="text" name="fname" value="Reeha"><br>
+  Last name: <input type="text" name="lname" value="Pradhan"><br>
+  <input type="submit" value="Submit"> <br>
+</form> 
+
+
+<button onclick="showElements()">Display Value</button>
+
+
+
+<script>
+function showElements() {
+  var get = document.getElementById("form1");
+  var text = "";
+  var i;
+  for (i = 0; i < get.length ;i++) {
+    text += get.elements[i].value + "<br>";
+  }
+  document.getElementById("elements").innerHTML = text;
+}
+</script>
+
+</body>
+</html>
