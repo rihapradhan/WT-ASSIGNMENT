@@ -1,6 +1,47 @@
 // Let's make an array to store todo list items
 let todoListArray = [];
 
+// Show the todo lists which had been added from the HTML form
+function showTodoList(todoTask) {
+    // Get todo list task
+    const todoList = document.querySelector('.js-todolist');
+
+    // Get current todo list task
+    const currentTask = document.querySelector(`[data-key="${todoTask.id}"]`);
+    console.log(currentTask);
+
+    const isTicked = todoTask.ticked ? 'ticked' : '';
+    const liNode = document.createElement('li');
+    liNode.setAttribute('class', `todo-task ${isTicked}`);
+    liNode.setAttribute('data-key', todoTask.id);
+    liNode.innerHTML = `
+        <input id="${todoTask.id}" type="checkbox" class="input-ticklist js-ticklist"/>
+        <label for="${todoTask.id}"></label>
+        <span class="todo-task-text">${todoTask.text}</span>
+        <button class="delete-todo-task js-delete-todo-task">Delete</button>
+    `;
+    if (todoTask.ticked) {
+        // Get input node from li node which is in the 0th position
+        const inputNode = liNode.children[todoTask.id];
+        inputNode.setAttribute("checked", "checked");
+    }
+
+    // Replace the current task it is already existed else append to the end of the list
+    if (currentTask) {
+        todoList.replaceChild(liNode, currentTask);
+
+    } else {
+        todoList.append(liNode);
+    }
+
+    // Delete todo task
+    if (todoTask.deleted) {
+        // remove the item from the DOM
+        liNode.remove();
+        return
+    }
+}
+
 // Let's make a function to create todo list object and assign to todoListArray array
 function addTodo(text) {
     const todoTask = {
@@ -11,53 +52,29 @@ function addTodo(text) {
 
     todoListArray.push(todoTask);
 
-    // Let's check todoListArray array in the console
-    console.log(todoListArray);
-
     // Let's show the added todoList
     showTodoList(todoTask);
 }
 
+// Method to toggle the task if ticked or not
 function toggleTicked(key) {
     const index = todoListArray.findIndex(item => item.id === Number(key));
+    console.log(index);
     todoListArray[index].ticked = !todoListArray[index].ticked;
     showTodoList(todoListArray[index]);
-  }
+}
 
-// Show the todo lists which had been added from the HTML form
-function showTodoList(todoTask) {
-    // Get todo list task
-    const todoList = document.querySelector('.js-todolist');
-
-    console.log(todoTask.id);
-
-    // Get current todo list task
-    const currentTask = document.querySelector(`[data-key="${todoTask.id}"]`);
-
-    const isTicked = todoTask.ticked ? 'ticked' : '';
-    const liNode = document.createElement('li');
-    liNode.setAttribute('class', `todo-task ${isTicked}`);
-    liNode.setAttribute('data-key', todoTask.id);
-    liNode.innerHTML = `
-        <input id="${todoTask.id}" type="checkbox" class="ticklist js-ticklist"/>
-        <label for="${todoTask.id}"></label>
-        <span class="todo-task-text">${todoTask.text}</span>
-        <button class="delete-todo-task js-delete-todo-task">Delete</button>
-    `;
-    if (todoTask.ticked) {
-        // Get input node from li node which is in the 0th position
-        const inputNode = liNode.children[0];
-        inputNode.setAttribute("checked", "checked");
+// Method to delete the todo task
+function deleteTodoTask(key) {
+    const index = todoListArray.findIndex(item => item.id === Number(key));
+    const delTodo = {
+        deleted: true,
+        ...todoListArray[index]
     }
 
-    // Replace the current task it is already existed else append to the end of the list
-    console.log(currentTask);
-    if (currentTask) {
-        todoList.replaceChild(liNode, currentTask);
-
-    } else {
-        todoList.append(liNode);
-    }
+    delTodo.deleted = true
+    todoListArray = todoListArray.filter(item => item.id !== Number(key));
+    showTodoList(delTodo);
 }
 
 // Let's select the form element 
@@ -88,8 +105,15 @@ const todolist = document.querySelector('.js-todolist');
 
 // Listen to click event of todolist children
 todolist.addEventListener('click', event => {
-  if (event.target.classList.contains('js-ticklist')) {
-    const todoListKey = event.target.parentElement.dataset.key;
-    toggleTicked(todoListKey);
-  }
+    if (event.target.classList.contains('js-ticklist')) {
+        const todoListKey = event.target.parentElement.dataset.key;
+        toggleTicked(todoListKey);
+    }
+
+    // Delete the todo task
+    // add this `if` block
+    if (event.target.classList.contains('js-delete-todo-task')) {
+        const todoListKey = event.target.parentElement.dataset.key;
+        deleteTodoTask(todoListKey);
+    }
 });
