@@ -3,6 +3,9 @@ let todoListArray = [];
 
 // Show the todo lists which had been added from the HTML form
 function showTodoList(todoTask) {
+    // Persisting the todo tasklists
+    localStorage.setItem('todoListRef', JSON.stringify(todoListArray));
+
     // Get todo list task
     const todoList = document.querySelector('.js-todolist');
 
@@ -115,5 +118,16 @@ todolist.addEventListener('click', event => {
     if (event.target.classList.contains('js-delete-todo-task')) {
         const todoListKey = event.target.parentElement.dataset.key;
         deleteTodoTask(todoListKey);
+    }
+});
+
+// Render any persisted todo lists in the local storage
+document.addEventListener('DOMContentLoaded', () => {
+    const todoListRef = localStorage.getItem('todoListRef');
+    if (todoListRef) {
+        todoListArray = JSON.parse(todoListRef);
+        todoListArray.forEach(todolist => {
+            showTodoList(todolist);
+        });
     }
 });
