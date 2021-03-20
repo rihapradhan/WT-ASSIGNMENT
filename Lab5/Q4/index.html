@@ -1,0 +1,58 @@
+<html>
+
+<head>
+  <title>Dynamic</title>
+
+  <style>
+    table.tablecolorred td {
+      color: red;
+      font-family: 'Courier New', Courier, monospace;
+    }
+
+    table.tablecolorblue td {
+      color: blue;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+  </style>
+</head>
+
+<body>
+  <h3 align="center">Dynamic Content with Js</h3>
+
+  <table id="valuesOnly" align="center">
+    <tr>
+      <td>Name: </td>
+      <td id="nameValTd">Riha Pradhan</td>
+    </tr>
+    <tr>
+      <td>Age: </td>
+      <td id="ageValTd">32</td>
+    </tr>
+    <tr>
+      <td>Hobbies:</td>
+      <td id="hobbyValTd">Books, Books, Books</td>
+    </tr>
+    <tr>
+      <td>
+        <button onclick="change('blue')">Blue</button>
+      </td>
+      <td>
+        <button onclick="change('red')">Make Red</button>
+      </td>
+    </tr>
+
+  </table>
+  <script>
+    function change(par) {
+      if (par == "blue") {
+
+        document.getElementById('valuesOnly').setAttribute("class", "tablecolorblue");
+      } else {
+
+        document.getElementById('valuesOnly').setAttribute("class", "tablecolorred");
+      }
+    }
+  </script>
+</body>
+
+</html>

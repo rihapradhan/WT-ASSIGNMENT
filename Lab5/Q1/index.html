@@ -1,0 +1,25 @@
+<html>
+
+<head>
+  <title>Visibility</title>
+</head>
+
+<body>
+  <h2>Toogle Hide/Show</h2> <button id="btn" onclick="hide()">Hide</button>
+   <button id="btn" onclick="show()">Show</button>
+  <img src="../images/jslogo.png" id="img">
+
+  <script>
+    function hide() {
+      var img = document.getElementById('img');
+        img.style.display = "none";
+    }
+
+    function show() {
+      var img = document.getElementById('img');
+      img.style.display = "block";
+    }
+  </script>
+</body>
+
+</html>
